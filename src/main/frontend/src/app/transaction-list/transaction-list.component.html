@@ -1,0 +1,31 @@
+<ng-container *ngIf="transactions && transactions.length>0; else notransactions">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let transaction of transactions; index as i">
+        <tr [ngClass]="transaction.type=='credit' ? 'table-success' : 'table-danger'" (click)="toggleShowDetails(i)">
+          <td >{{ transaction.type }}</td>
+          <td>{{ transaction.amount }}</td>
+        </tr>
+        <tr [hidden]="!transaction.showing">
+          <td colspan="3">
+            <ul class="list-group">
+              <li class="list-group-item border-0 p-0">Id: {{ transaction.id }}</li>
+              <li class="list-group-item border-0 p-0">Amount: {{ transaction.amount }}</li>
+              <li class="list-group-item border-0 p-0">Type: {{ transaction.type }}</li>
+              <li class="list-group-item border-0 p-0">Date: 	{{transaction.effectiveDate | date:'medium'}}</li>
+            </ul>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</ng-container>
+<ng-template #notransactions>  
+  <p class="text-center">No transactions found. Try inserting them using the API endpoints.</p>
+</ng-template>
